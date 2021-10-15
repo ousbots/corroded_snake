@@ -6,7 +6,7 @@ pub const ARENA_HEIGHT: u32 = 50;
 pub const ARENA_WIDTH: u32 = 50;
 
 /// An arena position in the game.
-#[derive(Default, Copy, Clone, Eq, PartialEq, Hash, Debug)]
+#[derive(Default, Clone, Copy, Eq, PartialEq, Hash, Debug)]
 pub struct Position {
     pub x: i32,
     pub y: i32,
@@ -23,18 +23,7 @@ impl Position {
             Direction::Down => position.y += 1,
         }
 
-        if position.x < 0 {
-            position.x = ARENA_WIDTH as i32;
-        } else if position.x > ARENA_WIDTH as i32 {
-            position.x = 0;
-        }
-
-        if position.y < 0 {
-            position.y = ARENA_HEIGHT as i32;
-        } else if position.y > ARENA_HEIGHT as i32 {
-            position.y = 0;
-        }
-
+        Position::warp_if_needed(&mut position);
         position
     }
 
@@ -43,6 +32,24 @@ impl Position {
         Position {
             x: (random::<u32>() % ARENA_WIDTH) as i32,
             y: (random::<u32>() % ARENA_HEIGHT) as i32,
+        }
+    }
+
+    pub fn warp_if_needed(mut position: &mut Position) {
+        if position.x >= ARENA_WIDTH as i32 {
+            position.x = 0;
+        }
+
+        if position.x < 0 {
+            position.x = (ARENA_WIDTH - 1) as i32;
+        }
+
+        if position.y >= ARENA_HEIGHT as i32 {
+            position.y = 0;
+        }
+
+        if position.y < 0 {
+            position.y = (ARENA_HEIGHT - 1) as i32;
         }
     }
 }

@@ -150,22 +150,9 @@ pub fn snake_movement(
         }
 
         // The head position needs to be warped to the opposite side if it is outside the arena.
-        if head_position.x > ARENA_WIDTH as i32 {
-            head_position.x = 0;
-        }
+        Position::warp_if_needed(&mut head_position);
 
-        if head_position.x < 0 {
-            head_position.x = ARENA_WIDTH as i32;
-        }
-
-        if head_position.y > ARENA_HEIGHT as i32 {
-            head_position.y = 0;
-        }
-
-        if head_position.y < 0 {
-            head_position.y = ARENA_HEIGHT as i32;
-        }
-
+        // Adjust all segment positions by moving them to where the previous one is.
         segment_positions
             .iter()
             .zip(segments.segments.iter())
