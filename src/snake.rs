@@ -29,25 +29,28 @@ pub enum SnakeMovement {
 /// Spawns a new snake with a single tail component in a fixed position and direction..
 /// TODO: randomize the starting position and direcion.
 pub fn spawn_snake(mut commands: Commands, materials: Res<Materials>) {
+    let head_position = Position::random();
+    let head_direction = Direction::random();
+
     let tail = spawn_segment(
         &mut commands,
         &materials.segment_material,
-        Position { x: 3, y: 2 },
+        head_position.following(head_direction),
     );
 
     commands
         .spawn_bundle(SpriteBundle {
             material: materials.head_material.clone(),
-            sprite: Sprite::new(Vec2::new(10.0, 10.0)),
+            sprite: Sprite::new(Vec2::new(0.0, 0.0)),
             ..Default::default()
         })
         .insert(SnakeHead {
-            direction: Direction::Up,
+            direction: head_direction,
         })
         .insert(SnakeSegments {
             segments: vec![tail],
         })
-        .insert(Position { x: 3, y: 3 })
+        .insert(head_position)
         .insert(Size::square(0.8))
         .id();
 }

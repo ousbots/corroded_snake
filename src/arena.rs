@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use rand::prelude::random;
 
 // Arena size constants.
 pub const ARENA_HEIGHT: u32 = 50;
@@ -9,6 +10,41 @@ pub const ARENA_WIDTH: u32 = 50;
 pub struct Position {
     pub x: i32,
     pub y: i32,
+}
+
+impl Position {
+    pub fn following(self: Self, heading: Direction) -> Position {
+        let mut position = self.clone();
+
+        match heading {
+            Direction::Left => position.x += 1,
+            Direction::Right => position.x -= 1,
+            Direction::Up => position.y -= 1,
+            Direction::Down => position.y += 1,
+        }
+
+        if position.x < 0 {
+            position.x = ARENA_WIDTH as i32;
+        } else if position.x > ARENA_WIDTH as i32 {
+            position.x = 0;
+        }
+
+        if position.y < 0 {
+            position.y = ARENA_HEIGHT as i32;
+        } else if position.y > ARENA_HEIGHT as i32 {
+            position.y = 0;
+        }
+
+        position
+    }
+
+    /// Returns a random position inside the arena.
+    pub fn random() -> Self {
+        Position {
+            x: (random::<u32>() % ARENA_WIDTH) as i32,
+            y: (random::<u32>() % ARENA_HEIGHT) as i32,
+        }
+    }
 }
 
 /// Specifies the area of an entity in grid units.
@@ -28,7 +64,7 @@ impl Size {
 }
 
 /// Which direction an entity is moving.
-#[derive(PartialEq, Copy, Clone)]
+#[derive(PartialEq, Copy, Clone, Debug)]
 pub enum Direction {
     Left,
     Right,
@@ -44,6 +80,17 @@ impl Direction {
             Self::Right => Self::Left,
             Self::Up => Self::Down,
             Self::Down => Self::Up,
+        }
+    }
+
+    /// Returns a random direction.
+    pub fn random() -> Self {
+        match random::<i32>() % 4 {
+            1 => Direction::Left,
+            2 => Direction::Right,
+            3 => Direction::Up,
+            4 => Direction::Down,
+            _ => Direction::Up,
         }
     }
 }
