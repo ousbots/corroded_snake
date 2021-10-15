@@ -42,6 +42,7 @@ fn main() {
                 .label(SnakeMovement::Input)
                 .before(SnakeMovement::Movement),
         )
+        .add_system(game_over_input.system())
         .add_system_set(
             SystemSet::new()
                 .with_run_criteria(FixedTimestep::step(0.150))

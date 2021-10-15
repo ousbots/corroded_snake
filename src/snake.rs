@@ -161,11 +161,27 @@ pub fn snake_movement_input(keyboard_input: Res<Input<KeyCode>>, mut heads: Quer
     for mut head in heads.iter_mut() {
         let dir: Direction = if keyboard_input.pressed(KeyCode::Left) {
             Direction::Left
+        } else if keyboard_input.pressed(KeyCode::S) {
+            Direction::Left
+        } else if keyboard_input.pressed(KeyCode::J) {
+            Direction::Left
         } else if keyboard_input.pressed(KeyCode::Right) {
+            Direction::Right
+        } else if keyboard_input.pressed(KeyCode::F) {
+            Direction::Right
+        } else if keyboard_input.pressed(KeyCode::L) {
             Direction::Right
         } else if keyboard_input.pressed(KeyCode::Up) {
             Direction::Up
+        } else if keyboard_input.pressed(KeyCode::E) {
+            Direction::Up
+        } else if keyboard_input.pressed(KeyCode::I) {
+            Direction::Up
         } else if keyboard_input.pressed(KeyCode::Down) {
+            Direction::Down
+        } else if keyboard_input.pressed(KeyCode::D) {
+            Direction::Down
+        } else if keyboard_input.pressed(KeyCode::K) {
             Direction::Down
         } else {
             head.direction

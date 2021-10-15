@@ -2,6 +2,7 @@ use crate::events::*;
 use crate::food::*;
 use crate::materials::*;
 use crate::snake::*;
+use bevy::app::AppExit;
 use bevy::prelude::*;
 
 /// Despawns everything in the game that shouldn't be included in a new game.
@@ -19,5 +20,15 @@ pub fn game_over(
         }
 
         spawn_snake(commands, materials);
+    }
+}
+
+/// Signals the game is over if exit keypresses are found.
+pub fn game_over_input(
+    keyboard_input: Res<Input<KeyCode>>,
+    mut endgame_writer: EventWriter<AppExit>,
+) {
+    if keyboard_input.pressed(KeyCode::Escape) {
+        endgame_writer.send(AppExit)
     }
 }
