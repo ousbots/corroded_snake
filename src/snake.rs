@@ -1,4 +1,4 @@
-use crate::arena::{Direction, Position, Size};
+use crate::arena::{Direction, Position, Size, ARENA_HEIGHT, ARENA_WIDTH};
 use crate::events::*;
 use crate::food::*;
 use crate::materials::*;
@@ -131,6 +131,12 @@ pub fn snake_movement(
             .collect::<Vec<Position>>();
 
         let mut head_position = positions.get_mut(snake_entity).unwrap();
+
+        if segment_positions.contains(&head_position) {
+            game_over_writer.send(GameOverEvent);
+        }
+
+        // The head position should be first so that the other segments get moved towards it.
         segment_positions.insert(0, *head_position);
 
         match &head.direction {
@@ -140,8 +146,21 @@ pub fn snake_movement(
             Direction::Down => head_position.y -= 1,
         }
 
-        if segment_positions.contains(&head_position) {
-            game_over_writer.send(GameOverEvent);
+        // The head position needs to be warped to the opposite side if it is outside the arena.
+        if head_position.x > ARENA_WIDTH as i32 {
+            head_position.x = 0;
+        }
+
+        if head_position.x < 0 {
+            head_position.x = ARENA_WIDTH as i32;
+        }
+
+        if head_position.y > ARENA_HEIGHT as i32 {
+            head_position.y = 0;
+        }
+
+        if head_position.y < 0 {
+            head_position.y = ARENA_HEIGHT as i32;
         }
 
         segment_positions
