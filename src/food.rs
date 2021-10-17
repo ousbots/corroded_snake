@@ -1,22 +1,28 @@
-use crate::arena::{Position, Size, ARENA_HEIGHT, ARENA_WIDTH};
+use crate::arena::{Position, Size};
 use crate::materials::*;
+use crate::snake::*;
 use bevy::prelude::*;
-use rand::prelude::random;
 
 /// Food entity.
 pub struct Food;
 
 /// Spawns food in a random position in the arena.
-pub fn food_spawner(mut commands: Commands, materials: Res<Materials>) {
-    commands
-        .spawn_bundle(SpriteBundle {
-            material: materials.food_material.clone(),
-            ..Default::default()
-        })
-        .insert(Food)
-        .insert(Position {
-            x: (random::<f32>() * ARENA_WIDTH as f32) as i32,
-            y: (random::<f32>() * ARENA_HEIGHT as f32) as i32,
-        })
-        .insert(Size::square(0.8));
+pub fn food_spawner(
+    mut commands: Commands,
+    materials: Res<Materials>,
+    query: Query<&Position, With<(Food, SnakeSegment)>>,
+) {
+    let position = Position::random();
+    let segments: Vec<&Position> = query.iter().map(|x| x).collect();
+
+    if !segments.contains(&&position) {
+        commands
+            .spawn_bundle(SpriteBundle {
+                material: materials.food_material.clone(),
+                ..Default::default()
+            })
+            .insert(Food)
+            .insert(position)
+            .insert(Size::square(0.8));
+    }
 }

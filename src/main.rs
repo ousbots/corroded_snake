@@ -17,9 +17,9 @@ use snake::*;
 fn setup(mut commands: Commands, mut materials: ResMut<Assets<ColorMaterial>>) {
     commands.spawn_bundle(OrthographicCameraBundle::new_2d());
     commands.insert_resource(Materials {
-        head_material: materials.add(Color::rgb(0.7, 0.7, 0.7).into()),
-        segment_material: materials.add(Color::rgb(0.3, 0.3, 0.3).into()),
-        food_material: materials.add(Color::rgb(1.0, 0.0, 1.0).into()),
+        head_material: materials.add(Color::rgb(1.0, 0.6902, 0.5215).into()),
+        segment_material: materials.add(Color::rgb(0.9765, 0.8353, 0.6549).into()),
+        food_material: materials.add(Color::rgb(0.7882, 0.5882, 0.8).into()),
     });
 }
 
@@ -27,11 +27,12 @@ fn main() {
     App::build()
         .insert_resource(WindowDescriptor {
             title: "snake!".to_string(),
-            width: 1000.0,
-            height: 1000.0,
+            width: 800.0,
+            height: 800.0,
             ..Default::default()
         })
-        .insert_resource(ClearColor(Color::rgb(0.04, 0.04, 0.04)))
+        //.insert_resource(ClearColor(Color::rgb(0.5647, 0.6667, 0.7961)))
+        .insert_resource(ClearColor(Color::rgb(0.3706, 0.3784, 0.4686)))
         .add_event::<events::GrowthEvent>()
         .add_event::<events::GameOverEvent>()
         .add_startup_system(setup.system())
@@ -45,7 +46,7 @@ fn main() {
         .add_system(game_over_input.system())
         .add_system_set(
             SystemSet::new()
-                .with_run_criteria(FixedTimestep::step(0.150))
+                .with_run_criteria(FixedTimestep::step(0.12))
                 .with_system(snake_movement.system().label(SnakeMovement::Movement))
                 .with_system(
                     snake_eating

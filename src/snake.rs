@@ -1,4 +1,4 @@
-use crate::arena::{Direction, Position, Size, ARENA_HEIGHT, ARENA_WIDTH};
+use crate::arena::{Direction, Position, Size};
 use crate::events::*;
 use crate::food::*;
 use crate::materials::*;
@@ -170,25 +170,25 @@ pub fn snake_movement_input(keyboard_input: Res<Input<KeyCode>>, mut heads: Quer
     for mut head in heads.iter_mut() {
         let dir: Direction = if keyboard_input.pressed(KeyCode::Left) {
             Direction::Left
-        } else if keyboard_input.pressed(KeyCode::S) {
+        } else if keyboard_input.pressed(KeyCode::A) {
             Direction::Left
         } else if keyboard_input.pressed(KeyCode::J) {
             Direction::Left
         } else if keyboard_input.pressed(KeyCode::Right) {
             Direction::Right
-        } else if keyboard_input.pressed(KeyCode::F) {
+        } else if keyboard_input.pressed(KeyCode::D) {
             Direction::Right
         } else if keyboard_input.pressed(KeyCode::L) {
             Direction::Right
         } else if keyboard_input.pressed(KeyCode::Up) {
             Direction::Up
-        } else if keyboard_input.pressed(KeyCode::E) {
+        } else if keyboard_input.pressed(KeyCode::W) {
             Direction::Up
         } else if keyboard_input.pressed(KeyCode::I) {
             Direction::Up
         } else if keyboard_input.pressed(KeyCode::Down) {
             Direction::Down
-        } else if keyboard_input.pressed(KeyCode::D) {
+        } else if keyboard_input.pressed(KeyCode::S) {
             Direction::Down
         } else if keyboard_input.pressed(KeyCode::K) {
             Direction::Down

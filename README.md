@@ -7,7 +7,6 @@ A simple snake game used to explore the Bevy game engine.
 
 - [x] basic game
 - [x] teleport snake when going off screen
-- [ ] dynamic screen sizing
 - [x] randomize the snake spawn
 - [ ] obstacle generation
 - [ ] gamepad input

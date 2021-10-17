@@ -2,11 +2,11 @@ use bevy::prelude::*;
 use rand::prelude::random;
 
 // Arena size constants.
-pub const ARENA_HEIGHT: u32 = 50;
-pub const ARENA_WIDTH: u32 = 50;
+pub const ARENA_HEIGHT: u32 = 80;
+pub const ARENA_WIDTH: u32 = 80;
 
 /// An arena position in the game.
-#[derive(Default, Clone, Copy, Eq, PartialEq, Hash, Debug)]
+#[derive(Default, Clone, Copy, Debug, Hash, Eq, PartialEq)]
 pub struct Position {
     pub x: i32,
     pub y: i32,
@@ -28,7 +28,7 @@ impl Position {
     }
 
     /// Returns a random position inside the arena.
-    pub fn random() -> Self {
+    pub fn random() -> Position {
         Position {
             x: (random::<u32>() % ARENA_WIDTH) as i32,
             y: (random::<u32>() % ARENA_HEIGHT) as i32,
